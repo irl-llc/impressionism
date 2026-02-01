@@ -3,6 +3,7 @@
 use anyhow::{Context, Result};
 use mlua::{Lua, Value};
 
+use super::api::register_api;
 use super::sandbox::apply_sandbox;
 
 /// Lua engine for evaluating skill activation rules.
@@ -16,6 +17,18 @@ impl LuaEngine {
         let lua = Lua::new();
         apply_sandbox(&lua)?;
         Ok(Self { lua })
+    }
+
+    /// Create a new Lua engine with sandbox and impressionism API registered.
+    pub fn with_api() -> Result<Self> {
+        let engine = Self::new()?;
+        engine.register_api()?;
+        Ok(engine)
+    }
+
+    /// Register the impressionism API on this engine.
+    pub fn register_api(&self) -> Result<()> {
+        register_api(&self.lua).map_err(Into::into)
     }
 
     /// Create a new Lua engine without sandbox (for testing only).
@@ -137,5 +150,22 @@ mod tests {
         engine.exec("my_var = 'test'").unwrap();
         let value = engine.get_global("my_var").unwrap();
         assert_eq!(format_value(&value), "test");
+    }
+
+    #[test]
+    fn test_with_api() {
+        let engine = LuaEngine::with_api().unwrap();
+        // Verify API is accessible
+        let result = engine.eval("return type(impressionism)").unwrap();
+        assert_eq!(result, "table");
+    }
+
+    #[test]
+    fn test_api_cosine_similarity() {
+        let engine = LuaEngine::with_api().unwrap();
+        let result: String = engine
+            .eval("return tostring(impressionism.cosine_similarity({1,0}, {0,1}))")
+            .unwrap();
+        assert_eq!(result, "0.0");
     }
 }
