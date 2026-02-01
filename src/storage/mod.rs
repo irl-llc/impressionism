@@ -4,6 +4,7 @@
 
 pub mod db;
 pub mod models;
+pub mod queries;
 pub mod schema;
 
 pub use db::Database;
