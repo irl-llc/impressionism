@@ -6,8 +6,11 @@ module(
 )
 
 bazel_dep(name = "rules_rust", version = "0.68.1")
-bazel_dep(name = "rules_python", version = "1.1.0")
+bazel_dep(name = "rules_cc", version = "0.2.14")
+bazel_dep(name = "rules_python", version = "1.7.0")
+bazel_dep(name = "platforms", version = "1.0.0")
 
+# Rust toolchain
 rust = use_extension("@rules_rust//rust:extensions.bzl", "rust")
 rust.toolchain(
     edition = "2021",
@@ -17,11 +20,33 @@ use_repo(rust, "rust_toolchains")
 
 register_toolchains("@rust_toolchains//:all")
 
+# Lua - built from source
+http_archive = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+http_archive(
+    name = "lua",
+    build_file = "//tools/lua:lua_build.BUILD.bazel",
+    sha256 = "9fbf5e28ef86c69858f6d3d34eccc32e911c1a28b4120ff3e84aaa70cfbf1e30",
+    strip_prefix = "lua-5.4.7",
+    urls = ["https://www.lua.org/ftp/lua-5.4.7.tar.gz"],
+)
+
+# Rust crates with mlua-sys build configuration
 crate = use_extension("@rules_rust//crate_universe:extension.bzl", "crate")
 crate.from_cargo(
     name = "crates",
     cargo_lockfile = "//:Cargo.lock",
     manifests = ["//:Cargo.toml"],
+)
+crate.annotation(
+    crate = "mlua-sys",
+    build_script_env = {
+        # Skip pkg-config and use explicit paths
+        "LUA54_NO_PKG_CONFIG": "1",
+        # Paths relative to execroot where Lua source is extracted
+        "LUA_INC": "external/lua/src",
+        "LUA_LIB": "external/lua",
+        "LUA_LIB_NAME": "lua",
+    },
 )
 use_repo(crate, "crates")
 

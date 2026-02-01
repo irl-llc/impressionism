@@ -1,0 +1,6 @@
+# Build file for Lua toolchain rules.
+
+exports_files([
+    "lua.bzl",
+    "lua_build.BUILD.bazel",
+])

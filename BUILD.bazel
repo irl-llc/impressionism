@@ -1,6 +1,6 @@
 """Root BUILD file for impressionism."""
 
-load("@rules_rust//rust:defs.bzl", "rust_binary", "rust_library")
+load("@rules_rust//rust:defs.bzl", "rust_binary", "rust_library", "rust_test")
 
 rust_binary(
     name = "impressionism",
@@ -26,6 +26,7 @@ rust_library(
         "@crates//:clap",
         "@crates//:directories",
         "@crates//:glob",
+        "@crates//:mlua",
         "@crates//:serde",
         "@crates//:serde_json",
         "@crates//:serde_yaml",
@@ -34,6 +35,16 @@ rust_library(
         "@crates//:tokio",
         "@crates//:uuid",
         "@crates//:walkdir",
+        "@lua//:lua",  # Native Lua library for mlua FFI
     ],
     visibility = ["//visibility:public"],
+)
+
+rust_test(
+    name = "impressionism_test",
+    crate = ":impressionism_lib",
+    deps = [
+        "@crates//:tempfile",
+        "@lua//:lua",  # Native Lua library for mlua FFI
+    ],
 )

@@ -1,0 +1,68 @@
+# BUILD file template for Lua source.
+# This file is applied as an overlay when the Lua source is fetched.
+
+load("@rules_cc//cc:cc_library.bzl", "cc_library")
+
+package(default_visibility = ["//visibility:public"])
+
+LUA_COPTS = select({
+    "@platforms//os:windows": [
+        "/DLUA_USE_WINDOWS",
+    ],
+    "@platforms//os:macos": [
+        "-DLUA_USE_MACOSX",
+        "-std=gnu99",
+    ],
+    "@platforms//os:ios": [
+        "-DLUA_USE_IOS",
+        "-std=gnu99",
+    ],
+    "@platforms//os:linux": [
+        "-DLUA_USE_LINUX",
+        "-std=gnu99",
+    ],
+    "//conditions:default": [
+        "-DLUA_USE_POSIX",
+        "-std=gnu99",
+    ],
+})
+
+LUA_LINKOPTS = select({
+    "@platforms//os:linux": [
+        "-ldl",
+        "-lm",
+    ],
+    "@platforms//os:macos": [
+        "-lm",
+    ],
+    "//conditions:default": [],
+})
+
+# Core Lua library for embedding.
+cc_library(
+    name = "lua",
+    srcs = glob(
+        include = ["src/*.c"],
+        exclude = [
+            "src/lua.c",   # CLI interpreter
+            "src/luac.c",  # CLI compiler
+        ],
+    ),
+    hdrs = glob(["src/*.h"]),
+    copts = LUA_COPTS,
+    includes = ["src"],
+    linkopts = LUA_LINKOPTS,
+)
+
+# Headers-only target for compile-time dependencies.
+cc_library(
+    name = "headers",
+    hdrs = glob(["src/*.h"]),
+    includes = ["src"],
+)
+
+# Alias for compatibility with other naming conventions.
+alias(
+    name = "liblua",
+    actual = ":lua",
+)

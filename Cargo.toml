@@ -20,8 +20,8 @@ arrow = "53"
 # Embedding
 fastembed = "4"
 
-# Lua scripting
-mlua = { version = "0.10", features = ["luajit", "serialize", "send"] }
+# Lua scripting (lua54 - Lua library provided by Bazel)
+mlua = { version = "0.10", features = ["lua54", "serialize", "send"] }
 
 # Serialization
 serde = { version = "1.0", features = ["derive"] }
