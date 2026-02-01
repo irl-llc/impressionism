@@ -1,0 +1,22 @@
+# Claude Code
+/.claude/settings.local.json
+
+# Bazel
+/bazel-*
+
+# Rust/Cargo (for local development)
+/target/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
