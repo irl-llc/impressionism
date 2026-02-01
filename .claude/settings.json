@@ -1,0 +1,25 @@
+{
+    "$schema": "https://json.schemastore.org/claude-code-settings.json",
+    "sandbox": {
+        "enabled": true,
+        "excludedCommands": [
+            "bazel:*"
+        ]
+    },
+    "permissions": {
+        "allow": [
+            "Edit(//Users/ekohlwey/Library/Caches/bazel/_bazel_ekohlwey/**)",
+            "Write(//Users/ekohlwey/Library/Caches/bazel/_bazel_ekohlwey/**)",
+            "Read(//Users/ekohlwey/Library/Caches/bazel/_bazel_ekohlwey/**)",
+            "Bash(git add:*)",
+            "Bash(gs:*)",
+            "Bash(git:*)",
+            "Bash(cargo:*)",
+            "Bash(bazel:*)"
+        ],
+        "deny": [
+            "Bash(git push:*)"
+        ],
+        "defaultMode": "default"
+    }
+}
