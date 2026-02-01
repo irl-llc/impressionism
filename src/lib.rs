@@ -4,9 +4,7 @@
 //! evaluating activation rules, and managing skill context in Claude Code sessions.
 
 pub mod cli;
-
-// Modules will be added in subsequent commits:
-// pub mod storage;
+pub mod storage;
 // pub mod embedding;
 // pub mod lua;
 // pub mod config;
