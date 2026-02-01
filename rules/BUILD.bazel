@@ -1,0 +1,7 @@
+# Built-in Lua rulesets for skill activation.
+
+filegroup(
+    name = "builtin_rulesets",
+    srcs = glob(["builtin/*.lua"]),
+    visibility = ["//visibility:public"],
+)
