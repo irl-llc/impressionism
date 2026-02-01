@@ -1,7 +1,3 @@
-# Rust configuration
-build --@rules_rust//:extra_rustc_flags=-Copt-level=3
-build --@rules_rust//:extra_rustc_flag=-Awarnings
-
 # Test configuration
 test --test_output=errors
 
