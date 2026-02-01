@@ -1,0 +1,13 @@
+# Rust configuration
+build --@rules_rust//:extra_rustc_flags=-Copt-level=3
+build --@rules_rust//:extra_rustc_flag=-Awarnings
+
+# Test configuration
+test --test_output=errors
+
+# Build performance
+build --jobs=auto
+
+# Convenience aliases
+build:debug --compilation_mode=dbg
+build:release --compilation_mode=opt

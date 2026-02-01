@@ -1,0 +1,35 @@
+"""Bazel module configuration for impressionism."""
+
+module(
+    name = "impressionism",
+    version = "0.1.0",
+)
+
+bazel_dep(name = "rules_rust", version = "0.57.1")
+bazel_dep(name = "rules_python", version = "0.31.0")
+
+rust = use_extension("@rules_rust//rust:extensions.bzl", "rust")
+rust.toolchain(
+    edition = "2021",
+    versions = ["1.83.0"],
+)
+use_repo(rust, "rust_toolchains")
+
+register_toolchains("@rust_toolchains//:all")
+
+crate = use_extension("@rules_rust//crate_universe:extension.bzl", "crate")
+crate.from_cargo(
+    name = "crates",
+    cargo_lockfile = "//:Cargo.lock",
+    manifests = ["//:Cargo.toml"],
+)
+use_repo(crate, "crates")
+
+# Python for e2e tests
+pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+pip.parse(
+    hub_name = "pip",
+    python_version = "3.11",
+    requirements_lock = "//tests/e2e:requirements_lock.txt",
+)
+use_repo(pip, "pip")

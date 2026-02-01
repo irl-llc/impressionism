@@ -1,0 +1,4 @@
+"""Root BUILD file for impressionism."""
+
+# Build targets will be added once Cargo.toml and src/ are created.
+# See next commit for rust_binary and rust_library targets.
