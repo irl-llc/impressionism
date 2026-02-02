@@ -15,7 +15,7 @@ thiserror = "1.0"
 # Storage
 lancedb = "0.15"
 duckdb = { version = "1.1", features = ["bundled"] }
-arrow = "53"
+arrow = "52"
 
 # Embedding
 fastembed = "4"
