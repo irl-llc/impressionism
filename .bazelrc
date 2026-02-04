@@ -1,0 +1,9 @@
+# Test configuration
+test --test_output=errors
+
+# Build performance
+build --jobs=auto
+
+# Convenience aliases
+build:debug --compilation_mode=dbg
+build:release --compilation_mode=opt

@@ -1,0 +1,46 @@
+[package]
+name = "impressionism"
+version = "0.1.0"
+edition = "2021"
+description = "Intelligent skill discovery and context-aware activation for Claude Code"
+license = "MIT"
+authors = ["Ed Kohlwey <ed@irl.llc>"]
+
+[dependencies]
+# CLI
+clap = { version = "4.5", features = ["derive"] }
+anyhow = "1.0"
+thiserror = "1.0"
+
+# Storage
+lancedb = "0.15"
+duckdb = { version = "1.1", features = ["bundled"] }
+arrow = "52"
+
+# Embedding
+fastembed = "4"
+
+# Lua scripting
+mlua = { version = "0.10", features = ["luajit", "serialize", "send"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_yaml = "0.9"
+serde_json = "1.0"
+
+# Async
+tokio = { version = "1", features = ["rt"] }
+
+# Utilities
+sha2 = "0.10"
+walkdir = "2"
+glob = "0.3"
+chrono = { version = "0.4", features = ["serde"] }
+directories = "5"
+uuid = { version = "1.0", features = ["v4"] }
+
+[dev-dependencies]
+assert_cmd = "2.0"
+predicates = "3.1"
+assert_fs = "1.1"
+tempfile = "3"

@@ -1,0 +1,44 @@
+"""Root BUILD file for impressionism."""
+
+load("@rules_rust//rust:defs.bzl", "rust_binary", "rust_library")
+
+rust_binary(
+    name = "impressionism",
+    srcs = ["src/main.rs"],
+    deps = [
+        ":impressionism_lib",
+        "@crates//:clap",
+        "@crates//:anyhow",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+rust_library(
+    name = "impressionism_lib",
+    srcs = glob(
+        ["src/**/*.rs"],
+        exclude = ["src/main.rs"],
+    ),
+    crate_name = "impressionism",
+    deps = [
+        "@crates//:anyhow",
+        "@crates//:arrow",
+        "@crates//:chrono",
+        "@crates//:clap",
+        "@crates//:directories",
+        "@crates//:duckdb",
+        "@crates//:fastembed",
+        "@crates//:glob",
+        "@crates//:lancedb",
+        "@crates//:mlua",
+        "@crates//:serde",
+        "@crates//:serde_json",
+        "@crates//:serde_yaml",
+        "@crates//:sha2",
+        "@crates//:thiserror",
+        "@crates//:tokio",
+        "@crates//:uuid",
+        "@crates//:walkdir",
+    ],
+    visibility = ["//visibility:public"],
+)
